@@ -32,6 +32,20 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group my-3">
+                        <div class="control-label">Tecnologie</div>
+                        @foreach ($technologies as $technology)
+                            <div class="form-check @error('technologies') is-invalid @enderror">
+                                @if ($errors->any())
+                                    <input type="checkbox" value="{{$technology->id}}" name="technologies[]" {{in_array($technology->id, old('technologies', [])) ? 'checked' : ''}} class="form-check-input">
+                                    <label class="form-check-label">{{$technology->name}}</label>
+                                @else
+                                    <input type="checkbox" value="{{$technology->id}}" name="technologies[]" {{$post->technologies->contains($technology) ? 'checked' : ''}} class="form-check-input">
+                                    <label class="form-check-label">{{$technology->name}}</label>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="form-group my-2">
                         <label class="control-label">Contenuto</label>
                         <textarea class="form-control" placeholder="Inserisci il contenuto" name="content" id="content">{{old('content') ?? $post->content}}</textarea>

@@ -21,7 +21,7 @@ class TechnologySeeder extends Seeder
 
             $newTechnology = new Technology();
             $newTechnology->name = $faker->sentence(2);
-            $newTechnology->slug = Str::slug($newTechnology->title, '-');
+            $newTechnology->slug = Str::slug($newTechnology->name, '-');
             $newTechnology->save();
 
         }

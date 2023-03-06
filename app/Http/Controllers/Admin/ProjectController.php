@@ -7,7 +7,7 @@ use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use Illuminate\Support\Facade\Auth;
 use App\Models\Type;
-
+use App\Models\Technology;
 class ProjectController extends Controller
 {
     /**
@@ -29,7 +29,8 @@ class ProjectController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.posts.create', compact('types'));
+        $technologies = Technology::all();
+        return view('admin.posts.create', compact('types', 'technologies'));
     }
 
     /**
@@ -47,6 +48,10 @@ class ProjectController extends Controller
         $newProject = new Project();
         $newProject->fill($form_data);
         $newProject->save();
+
+        if($request->has('technologies')){
+            $newProject->technologies()->attach($request->technologies);
+        }
 
         return redirect()->route('admin.posts.index')->with('message', 'Project creato correttamente');
     }
@@ -71,7 +76,8 @@ class ProjectController extends Controller
     public function edit(Project $post)
     {
         $types = Type::all();
-        return view('admin.posts.edit', compact('post', 'types'));
+        $technologies = Technology::all();
+        return view('admin.posts.edit', compact('post', 'types', 'technologies'));
     }
 
     /**
@@ -88,6 +94,10 @@ class ProjectController extends Controller
         $form_data['slug'] = $slug;
         $post->update($form_data);
 
+        if($request->has('technologies')){
+            $post->technologies()->sync($request->technologies);
+        }
+
         return redirect()->route('admin.posts.index')->with('message', 'Il progetto è stato modificato correttamente');
     }
 
@@ -99,6 +109,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $post)
     {
+
+        $post->tags()->sync([]);
+
         $post->delete();
         return redirect()->route('admin.posts.index')->with('message', 'Il post è stato cancellato correttamente');
     }

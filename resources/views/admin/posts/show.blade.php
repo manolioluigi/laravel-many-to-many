@@ -20,7 +20,15 @@
                 </p>
                 <p>
                     <strong>Tipo:</strong>
-                    {{$post->type ? $post->type->name : 'Senza categoria'}}
+                    {{$post->type ? $post->type->name : 'Senza tipologia'}}
+                </p>
+                <p>
+                    <strong>Tecnologie:</strong>  
+                    @forelse ($post->technologies as $technology)
+                        {{$technology->name}}
+                    @empty
+                        Nessuna tecnologia
+                    @endforelse
                 </p>
                 <label class="d-block">
                     <strong>Contenuto:</strong>

@@ -22,6 +22,15 @@
                             @endforeach
                         </select>
                     </div>
+                    <div class="form-group my-3">
+                        <div class="control-label">Tecnologie</div>
+                        @foreach ($technologies as $technology)
+                            <div class="form-check @error('technologies') is-invalid @enderror">
+                                <input type="checkbox" value="{{$technology->id}}" name="technologies[]" class="form-check-input">
+                                <label class="form-check-label">{{$technology->name}}</label>
+                            </div>
+                        @endforeach
+                    </div>
                     <div class="form-group my-2">
                         <label class="control-label">Contenuto</label>
                         <textarea class="form-control" placeholder="Inserisci il contenuto" name="content" id="content"></textarea>
